@@ -1,0 +1,16 @@
+C:\Users\abdi1\source\repos\BreakOutGame\BreakOutGame\bin\Debug\net10.0-windows\BreakOutGame.exe
+C:\Users\abdi1\source\repos\BreakOutGame\BreakOutGame\bin\Debug\net10.0-windows\BreakOutGame.deps.json
+C:\Users\abdi1\source\repos\BreakOutGame\BreakOutGame\bin\Debug\net10.0-windows\BreakOutGame.runtimeconfig.json
+C:\Users\abdi1\source\repos\BreakOutGame\BreakOutGame\bin\Debug\net10.0-windows\BreakOutGame.dll
+C:\Users\abdi1\source\repos\BreakOutGame\BreakOutGame\bin\Debug\net10.0-windows\BreakOutGame.pdb
+C:\Users\abdi1\source\repos\BreakOutGame\BreakOutGame\obj\Debug\net10.0-windows\BreakOutGame.Form1.resources
+C:\Users\abdi1\source\repos\BreakOutGame\BreakOutGame\obj\Debug\net10.0-windows\BreakOutGame.csproj.GenerateResource.cache
+C:\Users\abdi1\source\repos\BreakOutGame\BreakOutGame\obj\Debug\net10.0-windows\BreakOutGame.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\abdi1\source\repos\BreakOutGame\BreakOutGame\obj\Debug\net10.0-windows\BreakOutGame.AssemblyInfoInputs.cache
+C:\Users\abdi1\source\repos\BreakOutGame\BreakOutGame\obj\Debug\net10.0-windows\BreakOutGame.AssemblyInfo.cs
+C:\Users\abdi1\source\repos\BreakOutGame\BreakOutGame\obj\Debug\net10.0-windows\BreakOutGame.csproj.CoreCompileInputs.cache
+C:\Users\abdi1\source\repos\BreakOutGame\BreakOutGame\obj\Debug\net10.0-windows\BreakOutGame.dll
+C:\Users\abdi1\source\repos\BreakOutGame\BreakOutGame\obj\Debug\net10.0-windows\refint\BreakOutGame.dll
+C:\Users\abdi1\source\repos\BreakOutGame\BreakOutGame\obj\Debug\net10.0-windows\BreakOutGame.pdb
+C:\Users\abdi1\source\repos\BreakOutGame\BreakOutGame\obj\Debug\net10.0-windows\BreakOutGame.genruntimeconfig.cache
+C:\Users\abdi1\source\repos\BreakOutGame\BreakOutGame\obj\Debug\net10.0-windows\ref\BreakOutGame.dll
