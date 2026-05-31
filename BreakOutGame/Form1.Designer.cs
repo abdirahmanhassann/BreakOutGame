@@ -77,5 +77,6 @@
 
         private PictureBox paddlePictureBox;
         private PictureBox ballPictureBox;
+        private PictureBox pictureBox1;
     }
 }
