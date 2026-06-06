@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Drawing;
+using System.Reflection.Emit;
 using System.Windows.Forms;
 
 namespace BreakOutGame
@@ -11,8 +13,10 @@ namespace BreakOutGame
         private string _directionY = "SOUTH";
         private int _score = 0;
         private int _level = 1;
-        private int _ballSpeed = 3;
-        private int _refreshRate = 20;
+        private int _ballSpeed = 1;
+        private int _refreshRate = 1;
+        private bool _levelChange = false;
+        private int _hitInLevel = 0;
         private class Tiles()
         {
             public bool IsHit { get; set; }
@@ -37,6 +41,7 @@ namespace BreakOutGame
         {
             BallCollisionHandler();
             BallMovementHandler();
+            LevelChecker();
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
@@ -84,18 +89,64 @@ namespace BreakOutGame
             {
                 if (!_tilesList[i].IsHit)
                 {
-                    if (ballPictureBox.Location.Y >= (_tilesList[i].TilePictureBox.Location.Y)
-                        && ballPictureBox.Location.Y <= (_tilesList[i].TilePictureBox.Location.Y + _tilesList[i].TilePictureBox.Height)
-                        && ballPictureBox.Location.X >= _tilesList[i].TilePictureBox.Location.X
+                    //if (ballPictureBox.Location.Y >= (_tilesList[i].TilePictureBox.Location.Y)
+                    //    && ballPictureBox.Location.Y <= (_tilesList[i].TilePictureBox.Location.Y + _tilesList[i].TilePictureBox.Height)
+                    //    && ballPictureBox.Location.X >= _tilesList[i].TilePictureBox.Location.X
+                    //    && ballPictureBox.Location.X <= (_tilesList[i].TilePictureBox.Location.X + _tilesList[i].TilePictureBox.Width)
+                    //     )
+                    if (ballPictureBox.Location.Y == (_tilesList[i].TilePictureBox.Location.Y + _tilesList[i].TilePictureBox.Height)
+                        && ballPictureBox.Location.X + ballPictureBox.Width >= _tilesList[i].TilePictureBox.Location.X
                         && ballPictureBox.Location.X <= (_tilesList[i].TilePictureBox.Location.X + _tilesList[i].TilePictureBox.Width)
-                         )
+                        && _tilesList[i].IsHit == false
+                        )
                     {
                         _score++;
+                        _hitInLevel++;
                         _directionY = "SOUTH";
                         _tilesList[i].IsHit = true;
                         _tilesList[i].TilePictureBox.Visible = false;
-                        _tilesList.RemoveAt(i);
+                        //  _tilesList.RemoveAt(i);
                     }
+                    else if ((ballPictureBox.Location.Y + ballPictureBox.Height) == _tilesList[i].TilePictureBox.Location.Y
+                       && ballPictureBox.Location.X + ballPictureBox.Width >= _tilesList[i].TilePictureBox.Location.X
+                       && ballPictureBox.Location.X <= (_tilesList[i].TilePictureBox.Location.X + _tilesList[i].TilePictureBox.Width)
+                       && _tilesList[i].IsHit == false
+                       )
+                    {
+                        _score++;
+                        _hitInLevel++;
+                        _directionY = "NORTH";
+                        _tilesList[i].IsHit = true;
+                        _tilesList[i].TilePictureBox.Visible = false;
+                     //   _tilesList.RemoveAt(i);
+                    }
+                    else if (ballPictureBox.Location.X == (_tilesList[i].TilePictureBox.Location.X + _tilesList[i].TilePictureBox.Width)
+                       && ballPictureBox.Location.Y + ballPictureBox.Height >= _tilesList[i].TilePictureBox.Location.Y
+                       && ballPictureBox.Location.Y <= (_tilesList[i].TilePictureBox.Location.Y + _tilesList[i].TilePictureBox.Height)
+                       && _tilesList[i].IsHit == false
+                       )
+                    {
+                        _score++;
+                        _hitInLevel++;
+                        _directionX = "EAST";
+                        _tilesList[i].IsHit = true;
+                        _tilesList[i].TilePictureBox.Visible = false;
+                     //   _tilesList.RemoveAt(i);
+                    }
+                    else if ( (ballPictureBox.Location.X + ballPictureBox.Width) == _tilesList[i].TilePictureBox.Location.X
+                       && ballPictureBox.Location.Y + ballPictureBox.Height >= _tilesList[i].TilePictureBox.Location.Y
+                       && ballPictureBox.Location.Y <= (_tilesList[i].TilePictureBox.Location.Y + _tilesList[i].TilePictureBox.Height)
+                       && _tilesList[i].IsHit == false
+                       )
+                    {
+                        _score++;
+                        _hitInLevel++;
+                        _directionX = "WEST";
+                        _tilesList[i].IsHit = true;
+                        _tilesList[i].TilePictureBox.Visible = false;
+                     //   _tilesList.RemoveAt(i);
+                    }
+
                 }
 
             }
@@ -104,7 +155,7 @@ namespace BreakOutGame
 
         private void InitialValues()
         {
-            GenerateNewTiles(_level);
+            GenerateNewTiles();
         }
         private void BallMovementHandler()
         {
@@ -126,18 +177,20 @@ namespace BreakOutGame
             }
         }
 
-        private void GenerateNewTiles(int level)
+        private void GenerateNewTiles()
         {
-            for (int i = 0; i < level; i++)
+            for (int i = 0; i < _level; i++)
             {
                 int j = 0;
-                while (_tilesList.Count == 0 || (_tilesList[_tilesList.Count() - 1].TilePictureBox.Location.X + (_tilesList[_tilesList.Count() - 1].TilePictureBox.Width * 2) + 20) < this.ClientSize.Width)
+                while (_tilesList.Count == 0 || (_tilesList[_tilesList.Count() - 1].TilePictureBox.Location.X + (_tilesList[_tilesList.Count() - 1].TilePictureBox.Width ) + 100) < this.ClientSize.Width
+                    || _levelChange == true
+                    )
                 {
                     PictureBox tilePictureBox = new PictureBox();
                     tilePictureBox.BackColor = SystemColors.ControlDark;
-                    tilePictureBox.Name = $"pictureBox{_tilesList.Count()}";
-                    tilePictureBox.Size = new Size(100, 13);
-                    tilePictureBox.Location = new Point(_tilesList.Count > 0 ? _tilesList[_tilesList.Count() - 1].TilePictureBox.Location.X + tilePictureBox.Width + 20 : 100, 12);
+                    tilePictureBox.Name = $"pictureBox{_tilesList.Count}";
+                    tilePictureBox.Size = new Size(100, 14);
+                    tilePictureBox.Location = new Point(_tilesList.Count % 5 != 0 ? _tilesList[_tilesList.Count() - 1].TilePictureBox.Location.X + ballPictureBox.Width + 150 : 30, 96 * _level);
                     tilePictureBox.TabIndex = 2;
                     tilePictureBox.TabStop = false;
                     this.Controls.Add(tilePictureBox);
@@ -145,7 +198,24 @@ namespace BreakOutGame
                     tile.IsHit = false;
                     tile.TilePictureBox = tilePictureBox;
                     _tilesList.Add(tile);
+                    _levelChange = false;
                 }
+            }
+        }
+        private void LevelChecker()
+        {
+            if(_hitInLevel == _tilesList.Count)
+            {
+                _level++;
+                foreach(Tiles tile in _tilesList)
+                {
+                    tile.IsHit = false;
+                    _levelChange = true;
+                    tile.TilePictureBox.Visible = true;
+                    
+                }
+                GenerateNewTiles();
+                _hitInLevel = 0;
             }
         }
 
